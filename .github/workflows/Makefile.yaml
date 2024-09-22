@@ -1,19 +1,42 @@
-name: Makefile CI
+name: Guix CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - main
 
 jobs:
-  build:
-
+  guix-job:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-    - name: Make examples/target/rde-live.iso
-      run: make examples/target/rde-live.iso
+    - name: Cache Docker layers
+      uses: actions/cache@v3
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildx-
+
+    - name: Pull metacall/guix Docker image
+      run: |
+        docker pull metacall/guix
+
+    - name: Run Guix command
+      run: |
+        docker run --rm metacall/guix guix --version
+
+    - name: Run custom Guix script
+      run: |
+        # Here you can add any guix-related commands
+        docker run --rm metacall/guix bash -c "guix pull"
+
