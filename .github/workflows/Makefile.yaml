@@ -1,0 +1,19 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: rde-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+
+    - name: Make examples/target/rde-live.iso
+      run: make examples/target/rde-live.iso
