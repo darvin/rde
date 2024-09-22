@@ -38,5 +38,5 @@ jobs:
     - name: Run custom Guix script
       run: |
         # Here you can add any guix-related commands
-        docker run --rm metacall/guix bash -c "guix pull"
+        docker run --rm metacall/guix guix pull
 
