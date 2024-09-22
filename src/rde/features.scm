@@ -418,9 +418,9 @@ can be later used to extend original service with additional configuration."
       (kernel kernel)
       (kernel-arguments kernel-arguments)
       (kernel-loadable-modules kernel-modules)
-      (initrd initrd)
+      (initrd microcode-initrd)
       (initrd-modules initrd-modules)
-      (firmware firmware)
+      (firmware (list linux-firmware))
       (services (append
                  services
                  (if (rde-config-integrate-he-in-os? config)
